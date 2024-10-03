@@ -60,6 +60,40 @@ class CatRepository:
 
             return cat
 
+    @staticmethod
+    async def edit_cat(
+        cat_id:int,
+        cat_edit:Edit_cat_model
+):
+        async with async_session_maker() as session:
+            stmt = (
+                update(Cat).
+                where(Cat.id==cat_id).
+                values(
+                    cat_edit.model_dump(exclude_unset=True)
+                )
+            )
+
+            await session.execute(stmt)
+            await session.commit()
+
+            return {"status": "success"}
+
+    @staticmethod
+    async def delete_cat(
+        cat_id:int
+):
+        async with async_session_maker() as session:
+            stmt = (
+                delete(Cat).
+                where(Cat.id==cat_id)
+            )
+
+            await session.execute(stmt)
+            await session.commit()
+
+            return {"status": "success"}
+
 class BreedRepository:
 
     @staticmethod
@@ -89,7 +123,7 @@ class BreedRepository:
     async def edit_breed(
         breed_id:int,
         breed_edit:Edit_breed_model
-) -> Breed:
+):
         async with async_session_maker() as session:
             stmt = (
                 update(Breed).

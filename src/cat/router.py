@@ -20,6 +20,8 @@ router = APIRouter(
     tags= ["Cat"]
 )
 
+# Роутеры для модели кошек
+
 @router.post("/add_cat")
 async def add_cat(new_cat_model:Annotated[Create_cat_model, Body()],
 ):
@@ -35,6 +37,18 @@ async def get_all_cats():
 async def get_cat_by_id(cat_id:Annotated[int, Query()]):
     query = await CatRepository.get_cat_by_id(cat_id=cat_id)
     return query
+
+@router.patch("/edit_cat")
+async def edit_cat(cat_edit:Annotated[Edit_cat_model, Body()], cat_id:Annotated[int, Query()]):
+    stmt = await CatRepository.edit_cat(cat_edit=cat_edit, cat_id=cat_id)
+    return stmt
+
+@router.delete("/detele_cat")
+async def delete_cat(cat_id:Annotated[int, Query()]):
+    stmt = await CatRepository.delete_cat(cat_id=cat_id)
+    return stmt
+
+# Роутеры для модели пород
 
 @router.post("/add_breed")
 async def add_bread(new_breed_model:Annotated[Create_breed_model, Body()]
