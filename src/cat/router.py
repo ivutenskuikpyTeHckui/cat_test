@@ -31,6 +31,11 @@ async def get_all_cats():
     query = await CatRepository.get_all_cats()
     return query
 
+@router.get("/get_cat_by_id")
+async def get_cat_by_id(cat_id:Annotated[int, Query()]):
+    query = await CatRepository.get_cat_by_id(cat_id=cat_id)
+    return query
+
 @router.post("/add_breed")
 async def add_bread(new_breed_model:Annotated[Create_breed_model, Body()]
 

@@ -42,6 +42,23 @@ class CatRepository:
             all_cats = await session.scalars(query)
             
             return list(all_cats)
+        
+    @staticmethod
+    async def get_cat_by_id(
+        cat_id:int
+) -> Cat:
+        async with async_session_maker() as session:
+            query = (
+                select(Cat).
+                where(Cat.id==cat_id).
+                options(
+                    joinedload(Cat.breed),
+                ).
+                order_by(Cat.id)
+            )
+            cat = await session.scalar(query)
+
+            return cat
 
 class BreedRepository:
 
@@ -88,7 +105,9 @@ class BreedRepository:
             return {"status": "success"}
         
     @staticmethod
-    async def delete_breed(breed_id:int):
+    async def delete_breed(
+        breed_id:int
+):
         async with async_session_maker() as session:
             stmt = (
                 delete(Breed).
