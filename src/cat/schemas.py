@@ -26,6 +26,6 @@ class Create_breed_model(BaseModel):
 
     name: str
 
-class Edit_breed_model(BaseModel):
+class Edit_breed_model(Create_breed_model):
 
-    name: str
+    pass

@@ -18,15 +18,15 @@ class CatRepository:
     @staticmethod
     async def create_cat(
         new_cat_model:Create_cat_model,
-    ) -> Cat:
+) -> Cat:
         async with async_session_maker() as session:
-            cat = Cat(**new_cat_model.model_dump())
+            stmt = Cat(**new_cat_model.model_dump())
 
-            session.add(cat)
+            session.add(stmt)
 
             await session.commit()
 
-            return cat
+            return stmt
         
     @staticmethod
     async def get_all_cats() -> list[Cat]:
@@ -48,13 +48,13 @@ class BreedRepository:
     @staticmethod
     async def create_breed(
         new_breed_model:Create_breed_model,
-    ) -> Breed:
+) -> Breed:
         async with async_session_maker() as session:
-            breed = Breed(**new_breed_model.model_dump())
-            session.add(breed)
+            stmt = Breed(**new_breed_model.model_dump())
+            session.add(stmt)
             await session.commit()
 
-            return breed
+            return stmt
         
     @staticmethod
     async def get_all_breeds() -> list[Breed]:
@@ -67,3 +67,34 @@ class BreedRepository:
             all_breeds = await session.scalars(query)
             
             return list(all_breeds)
+        
+    @staticmethod
+    async def edit_breed(
+        breed_id:int,
+        breed_edit:Edit_breed_model
+) -> Breed:
+        async with async_session_maker() as session:
+            stmt = (
+                update(Breed).
+                where(Breed.id==breed_id).
+                values(
+                    breed_edit.model_dump()
+                )
+            )
+
+            await session.execute(stmt)
+            await session.commit()
+
+            return {"status": "success"}
+        
+    @staticmethod
+    async def delete_breed(breed_id:int):
+        async with async_session_maker() as session:
+            stmt = (
+                delete(Breed).
+                where(Breed.id==breed_id)
+            )
+            await session.execute(stmt)
+            await session.commit()
+
+            return {"status": "success"}

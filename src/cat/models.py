@@ -14,7 +14,7 @@ class Cat(Base):
     color: Mapped[str] = mapped_column(String(24))
     age: Mapped[int]
     description: Mapped[str] = mapped_column(String(256))
-    breed_id: Mapped[int] = mapped_column(ForeignKey("breed.id"))
+    breed_id: Mapped[int] = mapped_column(ForeignKey("breed.id", ondelete="CASCADE"))
     breed: Mapped["Breed"] = relationship(back_populates="cats")
 
 class Breed(Base):

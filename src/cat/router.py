@@ -23,17 +23,32 @@ router = APIRouter(
 @router.post("/add_cat")
 async def add_cat(new_cat_model:Annotated[Create_cat_model, Body()],
 ):
-    new_cat = await CatRepository.create_cat(new_cat_model)
-    return new_cat
+    stmt = await CatRepository.create_cat(new_cat_model=new_cat_model)
+    return stmt
 
 @router.get("/get_all_cats")
 async def get_all_cats():
-    all_cats = await CatRepository.get_all_cats()
-    return all_cats
+    query = await CatRepository.get_all_cats()
+    return query
 
 @router.post("/add_breed")
 async def add_bread(new_breed_model:Annotated[Create_breed_model, Body()]
 
 ):
-    new_breed = await BreedRepository.create_breed(new_breed_model)
-    return new_breed
+    stmt = await BreedRepository.create_breed(new_breed_model=new_breed_model)
+    return stmt
+
+@router.get("/get_all_breeds")
+async def get_all_breeds():
+    query = await BreedRepository.get_all_breeds()
+    return query
+
+@router.put("/edit_breed")
+async def edit_breed(breed_edit: Annotated[Edit_breed_model, Body()], breed_id:Annotated[int, Query()]):
+    stmt = await BreedRepository.edit_breed(breed_edit=breed_edit, breed_id=breed_id)
+    return stmt
+
+@router.delete("/delete_breed")
+async def delete_breed(breed_id:Annotated[int, Query()]):
+    stmt = await BreedRepository.delete_breed(breed_id=breed_id)
+    return stmt
