@@ -38,6 +38,11 @@ async def get_cat_by_id(cat_id:Annotated[int, Query()]):
     query = await CatRepository.get_cat_by_id(cat_id=cat_id)
     return query
 
+@router.get("/get_cats_by_breed")
+async def get_cats_by_breed(breed_id:Annotated[int, Query]):
+    query = await CatRepository.get_cats_by_breed(breed_id=breed_id)
+    return query
+
 @router.patch("/edit_cat")
 async def edit_cat(cat_edit:Annotated[Edit_cat_model, Body()], cat_id:Annotated[int, Query()]):
     stmt = await CatRepository.edit_cat(cat_edit=cat_edit, cat_id=cat_id)
@@ -47,6 +52,7 @@ async def edit_cat(cat_edit:Annotated[Edit_cat_model, Body()], cat_id:Annotated[
 async def delete_cat(cat_id:Annotated[int, Query()]):
     stmt = await CatRepository.delete_cat(cat_id=cat_id)
     return stmt
+
 
 # Роутеры для модели пород
 

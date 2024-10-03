@@ -44,6 +44,21 @@ class CatRepository:
             return list(all_cats)
         
     @staticmethod
+    async def get_cats_by_breed(
+        breed_id:int
+) ->list[Cat]:
+        async with async_session_maker() as session:
+            query = (
+                select(Cat).
+                where(Cat.breed_id==breed_id).
+                order_by(Cat.id)
+            )
+
+            cats = await session.scalars(query)
+            
+            return list(cats) 
+
+    @staticmethod
     async def get_cat_by_id(
         cat_id:int
 ) -> Cat:
