@@ -17,6 +17,12 @@ class Cat(Base):
     breed_id: Mapped[int] = mapped_column(ForeignKey("breed.id", ondelete="CASCADE"))
     breed: Mapped["Breed"] = relationship(back_populates="cats")
 
+    def __str__(self) -> str:
+        return f"id = {self.id}, color = {self.color}, age = {self.age}, description = {self.description}, breed_id = {self.breed_id}"
+
+    def __repr__(self) -> str:
+        return str(self)
+
 class Breed(Base):
     __tablename__ = "breed"
 
@@ -24,4 +30,9 @@ class Breed(Base):
     name: Mapped[str] = mapped_column(String(64))
     cats: Mapped[List["Cat"]] = relationship(back_populates="breed")
 
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+    def __repr__(self) -> str:
+        return str(self)
     

@@ -48,8 +48,8 @@ async def edit_cat(cat_edit:Annotated[Edit_cat_model, Body()], cat_id:Annotated[
     stmt = await CatRepository.edit_cat(cat_edit=cat_edit, cat_id=cat_id)
     return stmt
 
-@router.delete("/detele_cat")
-async def delete_cat(cat_id:Annotated[int, Query()]):
+@router.delete("/detele_cat/{cat_id}")
+async def delete_cat(cat_id:int):
     stmt = await CatRepository.delete_cat(cat_id=cat_id)
     return stmt
 
